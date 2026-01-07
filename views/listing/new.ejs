@@ -1,25 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wander Lust</title>
-</head>
+<% layout("layouts/boilerplate.ejs") %>
+
 <body>
-    <form action="" method = "post">
-        <input name="title" type="text" placeholder="Enter title">
-        <br>
-       <textarea name="description" id="" placeholder="Enter description"></textarea>
-        <br>
-        <input name="image" type="text" placeholder="Enter image URL/Link">
-        <br>
-        <input name="price" type="number" placeholder="Enter price">
-        <br>
-        <input name="country" type="text" placeholder="Enter country">
-        <br>
-        <input name="location" type="text" placeholder="Enter location">
-        <br>
-        <button type="submit">Add</button>
-    </form>
+  <div class="row my-5">
+    <div class="col-8 offset-2">
+      <h3>List your property with us!</h3>
+      <form action="/listing/new" method="post">
+        <div class="mb-3">
+          <label for="title" class="form-label">Enter Title</label>
+          <input
+            name="title"
+            type="text"
+            placeholder="Add a catchy title"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Enter Description</label>
+          <textarea
+            name="description"
+            id=""
+            placeholder="Enter description"
+            class="form-control"
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Enter Image URL</label>
+          <input
+            name="image"
+            type="text"
+            placeholder="Enter image URL/Link"
+            class="form-control"
+          />
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Enter Price</label>
+            <input
+              name="price"
+              type="number"
+              placeholder="Eg. 1200, 1500"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">Enter Country</label>
+            <input
+              name="country"
+              type="text"
+              placeholder="Eg. India, Russia, USA"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div>
+          <label for="location" class="form-label">Enter Location</label>
+          <input
+            name="location"
+            type="text"
+            placeholder="Jabalpur, Madhya pradesh, 482001"
+            class="form-control"
+          />
+        </div>
+        <button type="submit" class="btn btn-danger btn-lg my-5">Add</button>
+      </form>
+    </div>
+  </div>
 </body>
-</html>

@@ -1,24 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wander Lust | Listing Details</title>
-</head>
-<body>
-    <h1>Listing Details</h1>
-    <ul>
-        <li><%= listing.title %></li>
-        <li><%= listing.description %></li>
-        <li>&#8377 <%= (listing.price).toLocaleString("en-IN") %></li>
-        <li><%= listing.location %></li>
-        <li><%= listing.country %></li>
-    </ul>
+<% layout("/layouts/boilerplate.ejs") %>
 
-    <button><a href="/listing/<%= listing._id %>/edit">Edit</a></button>
-    <br><br>
-    <form action="/listing/<%= listing._id %>?_method=DELETE" method="post">
-        <button>Delete this listing</button>
-    </form>
-</body>
-</html>
+    <body>
+        <div class="container d-flex flex-column align-items-center mt-3">
+            <div class="card container-sm" style="max-width: 600px;">
+                <img src="<%= listing.image %>" class="card-img-top rounded-5" alt="listing image">
+                <div class="card-body">
+                    <h4 class="card-title fw-bold">
+                        <%= listing.title %>
+                    </h4>
+                    <p class="card-text">
+                        <%= listing.description %>
+                    </p>
+                    <p class="card-text fs-5 fw-bold">Price: &#8377 <%= listing.price.toLocaleString("en-In") %> / night
+                    </p>
+                    <p class="card-text fs-5 fw-bold">Address:
+                        <%= listing.location %>, <%= listing.country %>
+                    </p>
+                    <div class="d-flex flex-row justify-content-around">
+                        <a class="btn btn-danger" href="/listing/<%= listing._id %>/edit">Edit</a>
+                        <form action="/listing/<%= listing._id %>?_method=DELETE" method="post">
+                            <button class="btn btn-danger">Delete this listing</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    </html>

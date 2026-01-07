@@ -25,22 +25,9 @@ async function main(){
 }
 
 app.get("/", (req, res) =>{
-    res.send("Hi, Welcome to Wander Lust.");
+    res.redirect('/listings');
 });
 
-// app.get("/testlisting", async (req,res) =>{
-//     let sampleListing = new Listing({
-//         title:"Bhutiya Villa",
-//         description: "Get best experience with Bhutiya villa.",
-//         price: 10000,
-//         location:"Shamshan Gali, Chhatishgadh",
-//         country:"USA"
-//     });
-
-//     await sampleListing.save().then((res)=>{
-//         console.log("Sample listing saved succesfully.");
-//     });
-// });
 
 app.get("/listings",async (req, res) =>{
     const allListings = await Listing.find({});

@@ -1,25 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wander Lust</title>
-</head>
+<% layout("layouts/boilerplate.ejs") %>
+
 <body>
-    <form action="/listing/<%= listing._id %>?_method=PUT" method = "post">
-        <input name="title" type="text" value="<%= listing.title %>">
-        <br>
-       <textarea name="description" id=""><%= listing.description %></textarea>
-        <br>
-        <input name="image" type="text" value="<%= listing.image %>">
-        <br>
-        <input name="price" type="number" value="<%= listing.price %>">
-        <br>
-        <input name="country" type="text" value="<%= listing.country %>">
-        <br>
-        <input name="location" type="text" value="<%= listing.location %>">
-        <br>
-        <button type="submit">Edit</button>
-    </form>
+  <div class="row my-5">
+    <div class="col-8 offset-2">
+      <h3>List your property with us!</h3>
+      <form action="/listing/<%= listing.id %>?_method=PUT" method="post">
+        <div class="mb-3">
+          <label for="title" class="form-label">Enter Title</label>
+          <input
+            name="title"
+            type="text"
+            value="<%= listing.title %>"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Enter Description</label>
+          <textarea
+            name="description"
+            id=""
+            class="form-control"
+          ><%= listing.description %></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Enter Image URL</label>
+          <input
+            name="image"
+            type="text"
+            value="<%= listing.image %>"
+            class="form-control"
+          />
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Enter Price</label>
+            <input
+              name="price"
+              type="number"
+              value=<%= listing.price %>
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">Enter Country</label>
+            <input
+              name="country"
+              type="text"
+              value="<%= listing.country %>"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div>
+          <label for="location" class="form-label">Enter Location</label>
+          <input
+            name="location"
+            type="text"
+            value="<%= listing.location %>"
+            class="form-control"
+          />
+        </div>
+        <button type="submit" class="btn btn-danger btn-lg my-5">Add</button>
+      </form>
+    </div>
+  </div>
 </body>
-</html>

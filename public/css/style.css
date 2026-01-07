@@ -1,3 +1,87 @@
-body{
-    background-color: skyblue;
+body {
+  font-family: "Manrope", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-weight: bolder;
+}
+
+.container {
+  flex: 1 !important;
+}
+.navbar {
+  height: 5rem;
+  background-color: white;
+}
+.fa-compass {
+  color: #fe424d;
+  font-size: 2rem;
+}
+
+.nav-link {
+  color: #222222 !important;
+}
+.f-info {
+  margin: 0;
+  height: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ebebeb;
+}
+.f-info a {
+  color: rgba(0, 0, 0, 0.836);
+  text-decoration: none;
+}
+
+.f-info-socials {
+  font-size: 1.2rem;
+}
+
+.f-info-links a:hover {
+  text-decoration: underline;
+}
+
+.listing-img {
+  height: 250px; /* Default for small screens */
+  object-fit: cover;
+  border-radius: 12.5%;
+}
+/* Medium screens */
+@media (max-width: 767px) {
+  .listing-img {
+    height: 250px;
+    border-radius: 5%;
+  }
+}
+
+/* Large screens */
+@media (min-width: 992px) {
+  .listing-img {
+    height: 200px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1200px) {
+  .listing-img {
+    height: 220px;
+  }
+}
+
+.index-card {
+  text-decoration: none;
+  color: black;
+}
+.card-img-overlay {
+  opacity: 0;
+}
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+}
+
+.card {
+  border: none;
 }
