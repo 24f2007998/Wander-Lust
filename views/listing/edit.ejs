@@ -4,61 +4,73 @@
   <div class="row my-5">
     <div class="col-8 offset-2">
       <h3>List your property with us!</h3>
-      <form action="/listing/<%= listing.id %>?_method=PUT" method="post">
+      <form action="/listing/<%= listing.id %>?_method=PUT" method="post" novalidate class="needs-validation">
         <div class="mb-3">
           <label for="title" class="form-label">Enter Title</label>
           <input
-            name="title"
+            name="listing[title]"
             type="text"
             value="<%= listing.title %>"
             class="form-control"
+            required
           />
+          <div class="valid-feedback">Title looks good</div>
         </div>
         <div class="mb-3">
           <label for="description" class="form-label">Enter Description</label>
           <textarea
-            name="description"
+            name="listing[description]"
             id=""
             class="form-control"
+            required
           ><%= listing.description %></textarea>
+          <div class="invalid-feedback">Please Enter a short description</div>
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">Enter Image URL</label>
           <input
-            name="image"
+            name="listing[image]"
             type="text"
             value="<%= listing.image %>"
             class="form-control"
+            required
           />
+          <div class="invalid-feedback">Enter a valid link!</div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-4">
             <label for="price" class="form-label">Enter Price</label>
             <input
-              name="price"
+              name="listing[price]"
               type="number"
               value=<%= listing.price %>
               class="form-control"
+              required
             />
+            <div class="invalid-feedback">Price should be valid</div>
           </div>
           <div class="mb-3 col-md-8">
             <label for="country" class="form-label">Enter Country</label>
             <input
-              name="country"
+              name="listing[country]"
               type="text"
               value="<%= listing.country %>"
               class="form-control"
+              required
             />
+            <div class="invalid-feedback">Country should be valid!</div>
           </div>
         </div>
         <div>
           <label for="location" class="form-label">Enter Location</label>
           <input
-            name="location"
+            name="listing[location]"
             type="text"
             value="<%= listing.location %>"
             class="form-control"
+            required
           />
+          <div class="invalid-feedback">Location should be valid!</div>
         </div>
         <button type="submit" class="btn btn-danger btn-lg my-5">Add</button>
       </form>

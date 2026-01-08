@@ -5,8 +5,12 @@ const path = require("path");
 const { count } = require('console');
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpreeError.js");
+const { stat } = require('fs');
+const { listingSchema } = require("./schema.js")
 
-app = express();
+const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended: true}));
@@ -20,53 +24,72 @@ main().then((res) =>{
     console.log("Something went wrong during connection with DB.\n" + err);
 });
 
+const validateListing = (req, res, next) =>{
+    let {error} = listingSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400, error);
+    }else{
+        next();
+    }
+}
+
 async function main(){
     mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
 
-app.get("/", (req, res) =>{
+
+
+app.get("/", wrapAsync((req, res) =>{
     res.redirect('/listings');
-});
+}));
 
 
-app.get("/listings",async (req, res) =>{
+app.get("/listings",wrapAsync(async (req, res) =>{
     const allListings = await Listing.find({});
     res.render("listing/index.ejs", { allListings } );
-});
+}));
 app.get("/listing/new" ,(req, res) =>{
     res.render("listing/new.ejs");
 });
 
-app.post("/listing/new",async (req, res) =>{
-    console.log(req.body);
-    let {title, description, image, price, country, location} = req.body;
-    const listing = new Listing({title: title, description: description, image: image, price: Number(price), location: location, country: country});
-    await listing.save();
+app.post("/listing/new",validateListing, wrapAsync(async (req, res) => {
+    const newlisting = new Listing(req.body.listing);
+    
+    await newlisting.save();
     res.redirect("/listings");
-});
-app.get("/listing/:id",async (req, res) =>{
+}));
+app.get("/listing/:id",wrapAsync(async (req, res) =>{
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listing/show.ejs", { listing });
-});
+}));
 
-app.get("/listing/:id/edit", async (req, res) =>{
+app.get("/listing/:id/edit",wrapAsync( async (req, res) =>{
     let { id } = req.params;
     const listing = await Listing.findById(id);
     res.render("listing/edit.ejs", { listing });
-})
+}));
 
-app.put("/listing/:id",async (req, res) =>{
+app.put("/listing/:id",validateListing, wrapAsync( async (req, res) =>{
     let { id } = req.params;
-    let {title, description, image, price, country, location} = req.body;
-    const listing = await Listing.findByIdAndUpdate(id,{title: title, description: description, image: image, price: Number(price), location: location, country: country} );
+    const listing = await Listing.findByIdAndUpdate(id,req.body.listing );
     res.redirect(`/listing/${id}`);
-});
+}));
 
-app.delete("/listing/:id",async(req, res)=>{
+app.delete("/listing/:id",wrapAsync(async(req, res)=>{
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
+}));
+
+app.all("*catchAll",(req, res,next) =>{
+    next(new ExpressError(404, "Page not found"));
+});
+
+app.use((err, req, res, next) =>{
+    let {statusCode = 500, message = "Something went wrong!"} = err;
+    let data = {statusCode: statusCode, message: message}
+    res.render("error.ejs",{ data });
 });
 
 app.listen(8080, () =>{
