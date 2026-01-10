@@ -25,6 +25,64 @@
                 </div>
             </div>
         </div>
+        <div class="row reviews-box">
+            <% if (listing.reviews.length) { %>
+                <div class=" col-12 col-md-8 mb-4 mb-lg-0 reviews my-3">
+                    <h4>All Reviews</h4>
+                    <ul style="list-style: circle;">
+                        <% for (let review of listing.reviews) { %>
+                            <div class="card-body mb-3">
+                                <li>
+                                    <h5 class="card-subtitle text-body-secondary">
+                                        <%= review.rating %> Star
+                                    </h5>
+                                </li>
+                                <p class="card-text mb-1">
+                                    <%= review.comment %>
+                                </p>
+                                <form method="POST" action="/listing/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                    <button class="btn btn-dark btn-sm">Delete</button>
+                                </form>
+                            </div>
+                            <% } %>
+                    </ul>
+                </div>
+                <% } %>
+
+
+                    <div class="col-12 col-md-4 my-4 container-sm">
+                        <h4 class="fw-bold">Leave a Review</h4>
+                        <form action="/listing/<%= listing._id %>/reviews" method="post" novalidate
+                            class="needs-validation">
+                            <lable class="form-label fs-5 me-3">Rating:</lable>
+                            <div class="btn-group my-3" role="group" aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio1"
+                                    autocomplete="off" value="1">
+                                <label class="btn btn-outline-dark" for="btnradio1">1</label>
+                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio2"
+                                    autocomplete="off" value="2">
+                                <label class="btn btn-outline-dark" for="btnradio2">2</label>
+                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio3"
+                                    autocomplete="off" value="3">
+                                <label class="btn btn-outline-dark" for="btnradio3">3</label>
+                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio4"
+                                    autocomplete="off" value="4">
+                                <label class="btn btn-outline-dark" for="btnradio4">4</label>
+                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio5"
+                                    autocomplete="off" value="5" checked>
+                                <label class="btn btn-outline-dark" for="btnradio5">5</label>
+                            </div>
+                            <div class="review-comment">
+                                <lable class="form-label fs-5 me-3" for="comment">Comment:</lable>
+                                <textarea minlength="10" maxlength="500" name="review[comment]" rows="7"
+                                    class="form-control" id="comment" required></textarea>
+                                <div class="invalid-feedback">Please add some valid comment for review.
+                                </div>
+                                <button class="btn btn-dark btn-bg my-3">Add Review</button>
+                            </div>
+                        </form>
+                    </div>
+        </div>
     </body>
 
     </html>

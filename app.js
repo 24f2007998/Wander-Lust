@@ -8,7 +8,10 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpreeError.js");
 const { stat } = require('fs');
-const { listingSchema } = require("./schema.js")
+const { listingSchema } = require("./schema.js");
+const { reviewSchema } = require("./schema.js");
+const Reviews = require("./models/review.js");
+const review = require('./models/review.js');
 
 const app = express();
 app.set("view engine", "ejs");
@@ -26,6 +29,15 @@ main().then((res) =>{
 
 const validateListing = (req, res, next) =>{
     let {error} = listingSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400, error);
+    }else{
+        next();
+    }
+}
+
+const validateReview = (req, res, next) =>{
+    let {error} = reviewSchema.validate(req.body);
     if(error){
         throw new ExpressError(400, error);
     }else{
@@ -60,7 +72,7 @@ app.post("/listing/new",validateListing, wrapAsync(async (req, res) => {
 }));
 app.get("/listing/:id",wrapAsync(async (req, res) =>{
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listing/show.ejs", { listing });
 }));
 
@@ -82,9 +94,29 @@ app.delete("/listing/:id",wrapAsync(async(req, res)=>{
     res.redirect("/listings");
 }));
 
+app.post("/listing/:id/reviews",validateReview, wrapAsync( async (req, res) =>{
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Reviews(req.body.review);
+    
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+    res.redirect(`/listing/${listing._id}`);
+}));
+
+app.delete("/listing/:id/reviews/:review_id", async (req, res) => {
+    let {id, review_id} = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull: {reviews: review_id}});
+    await Reviews.findByIdAndDelete(review_id);
+
+    res.redirect(`/listing/${id}`);
+})
+
 app.all("*catchAll",(req, res,next) =>{
     next(new ExpressError(404, "Page not found"));
 });
+
 
 app.use((err, req, res, next) =>{
     let {statusCode = 500, message = "Something went wrong!"} = err;
