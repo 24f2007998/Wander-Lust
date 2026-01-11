@@ -17,8 +17,8 @@
                         <%= listing.location %>, <%= listing.country %>
                     </p>
                     <div class="d-flex flex-row justify-content-around">
-                        <a class="btn btn-danger" href="/listing/<%= listing._id %>/edit">Edit</a>
-                        <form action="/listing/<%= listing._id %>?_method=DELETE" method="post">
+                        <a class="btn btn-danger" href="/listings/<%= listing._id %>/edit">Edit</a>
+                        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
                             <button class="btn btn-danger">Delete this listing</button>
                         </form>
                     </div>
@@ -40,7 +40,7 @@
                                 <p class="card-text mb-1">
                                     <%= review.comment %>
                                 </p>
-                                <form method="POST" action="/listing/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                                     <button class="btn btn-dark btn-sm">Delete</button>
                                 </form>
                             </div>
@@ -52,7 +52,7 @@
 
                     <div class="col-12 col-md-4 my-4 container-sm">
                         <h4 class="fw-bold">Leave a Review</h4>
-                        <form action="/listing/<%= listing._id %>/reviews" method="post" novalidate
+                        <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate
                             class="needs-validation">
                             <lable class="form-label fs-5 me-3">Rating:</lable>
                             <div class="btn-group my-3" role="group" aria-label="Basic radio toggle button group">
