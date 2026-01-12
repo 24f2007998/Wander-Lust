@@ -10,7 +10,6 @@ body {
   flex: 1 !important;
 }
 .navbar {
-  height: 5rem;
   background-color: white;
 }
 .fa-compass {
@@ -49,10 +48,19 @@ body {
   border-radius: 12.5%;
 }
 /* Medium screens */
+@media (min-width: 767px) {
+  .navbar {
+    background-color: white;
+    height: 5rem;
+  }
+}
 @media (max-width: 767px) {
   .listing-img {
     height: 250px;
     border-radius: 5%;
+  }
+  .navbar {
+    background-color: white;
   }
 }
 
