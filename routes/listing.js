@@ -20,7 +20,12 @@ router.get("/", wrapAsync(async (req, res) =>{
     res.render("listing/index.ejs", { allListings } );
 }));
 router.get("/new" ,(req, res) =>{
-    res.render("listing/new.ejs");
+    console.log(req.user)
+    if(!req.isAuthenticated()){
+        req.flash("error", "You must be logged in to create listing.");
+        return res.redirect("/login");
+    }
+    return res.render("listing/new.ejs");
 });
 
 router.post("/new",validateListing, wrapAsync(async (req, res) => {
@@ -35,10 +40,10 @@ router.get("/:id",wrapAsync(async (req, res) =>{
     console.log(listing)
     if(!listing){
         req.flash("error", "Listing you requested for doesn't exist.")
-        res.redirect("/listings");
-    }else{
-        res.render("listing/show.ejs", { listing });
+        return res.redirect("/listings");
     }
+    return res.render("listing/show.ejs", { listing });
+
 }));
 
 router.get("/:id/edit",wrapAsync( async (req, res) =>{
@@ -46,10 +51,9 @@ router.get("/:id/edit",wrapAsync( async (req, res) =>{
     const listing = await Listing.findById(id);
     if(!listing){
         req.flash("error", "Listing you requested for doesn't exist.")
-        res.redirect("/listings");
-    }else{
-        res.render("listing/edit.ejs", { listing });
+        return res.redirect("/listings");
     }
+    return res.render("listing/edit.ejs", { listing });
 }));
 
 router.put("/:id",validateListing, wrapAsync( async (req, res) =>{

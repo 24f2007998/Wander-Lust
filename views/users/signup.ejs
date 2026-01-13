@@ -1,0 +1,43 @@
+<% layout("layouts/boilerplate.ejs") %>
+  <div class="row my-5">
+    <div class="col-6 offset-3">
+      <h3>Create your account</h3>
+      <form action="/signup" method="post" novalidate class="needs-validation">
+        <div class="mb-3">
+          <label for="email" class="form-label">Enter Email</label>
+          <input
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            class="form-control"
+            required
+          />
+          <div class="valid-feedback">Email looks good</div>
+          <div class="invalid-feedback">Enter a valid email</div>
+        </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">Enter Username</label>
+          <input
+            name="username"
+            id=""
+            placeholder="Enter a unique username you want"
+            class="form-control"
+            required
+          ></input>
+          <div class="invalid-feedback">This username already exists.</div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Create a strong password</label>
+          <input
+            name="password"
+            type="password"
+            placeholder="Create a strong password"
+            class="form-control"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-danger btn-lg mt-5">Sign up</button>
+        <p class="fw-bold">Already have an account <a href="/login">Login</a></p>
+    </form>
+    </div>
+  </div>

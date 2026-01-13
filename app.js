@@ -7,6 +7,8 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpreeError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const User = require("./models/user.js");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -16,9 +18,6 @@ app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", wrapAsync((req, res) =>{
-    res.send("Hi I am root.");
-}));
 
 const sessionOptions = {
     secret: "mysupersecretcode",
@@ -34,14 +33,24 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());                                       
+
 app.use((req, res, next) =>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
 });
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
 main().then((res) =>{
     console.log("Connection with DB is successful!");
 }).catch((err) =>{
@@ -53,10 +62,15 @@ async function main(){
     mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews)
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter)
+app.use("/", userRouter)
 
-app.all("*catchAll",(req, res,next) =>{
+app.get("/", wrapAsync((req, res) =>{
+    return res.send("Hi I am root.");
+}));
+ 
+app.all('/*splat',(req, res, next) => {
     next(new ExpressError(404, "Page not found"));
 });
 

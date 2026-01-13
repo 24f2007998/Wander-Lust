@@ -1,0 +1,30 @@
+<% layout("layouts/boilerplate.ejs") %>
+  <div class="row my-5">
+    <div class="col-6 offset-3">
+      <h3>Login</h3>
+      <form action="/login" method="post" novalidate class="needs-validation">
+        <div class="mb-3">
+          <label for="identifier" class="form-label">Enter Username or Email</label>
+          <input
+            name="identifier"
+            id=""
+            placeholder="Enter Username or Email"
+            class="form-control"
+            required
+          ></input>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Enter Your password</label>
+          <input
+            name="password"
+            type="password"
+            placeholder="Enter Your Password"
+            class="form-control"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-danger btn-lg mt-5">Login</button>
+        <p class="fw-bold">Don't have an Account <a href="/signup">Sign up</a></p>
+    </form>
+    </div>
+  </div>
