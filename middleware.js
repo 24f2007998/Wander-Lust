@@ -5,7 +5,6 @@ const { reviewSchema } = require("./schema.js");
 const ExpressError = require("./utils/ExpreeError.js");
 
 module.exports.isLoggedin = (req, res, next) =>{
-    console.log(req)
     if(!req.isAuthenticated()){
         req.session.redirectUrl = req.originalUrl;
         req.flash("error", "You need to logged in to perform this task");

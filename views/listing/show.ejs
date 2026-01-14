@@ -3,7 +3,7 @@
     <body>
         <div class="container d-flex flex-column align-items-center mt-3">
             <div class="card container-sm" style="max-width: 600px;">
-                <img src="<%= listing.image %>" class="card-img-top rounded-5" alt="listing image">
+                <img src="<%= listing.image.url %>" class="card-img-top rounded-5" alt="listing image">
                 <div class="card-body">
                     <p class="card-text">
                         Owned by <%= listing.owner.username %>
@@ -26,7 +26,7 @@
                                 <button class="btn btn-danger">Delete this listing</button>
                             </form>
                         </div>
-                   <% } %>
+                        <% } %>
                 </div>
             </div>
         </div>
@@ -38,21 +38,21 @@
                         <% for (let review of listing.reviews) { %>
                             <div class="card-body mb-3">
                                 <li>
-                                    <h4 class="mb-1">
-                                        @<%= review.author.username %>
-                                    </h4>
+                                    <h5 class="mb-1">
+                                        <%= review.author.username %>
+                                    </h5>
                                 </li>
-                                <h5 class="card-subtitle text-body-secondary">
-                                    <%= review.rating %> Star
-                                </h5>
+                                <p class="starability-result" data-rating="<%= review.rating %>">
+                                </p>
                                 <p class="card-text mb-1">
                                     <%= review.comment %>
                                 </p>
                                 <% if(currUser && currUser._id.equals(review.author._id)){ %>
-                                    <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                    <form method="POST"
+                                        action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                                         <button class="btn btn-dark btn-sm">Delete</button>
                                     </form>
-                               <% } %>
+                                    <% } %>
                             </div>
                             <% } %>
                     </ul>
@@ -64,24 +64,20 @@
                         <h4 class="fw-bold">Leave a Review</h4>
                         <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate
                             class="needs-validation">
-                            <lable class="form-label fs-5 me-3">Rating:</lable>
-                            <div class="btn-group my-3" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio1"
-                                    autocomplete="off" value="1">
-                                <label class="btn btn-outline-dark" for="btnradio1">1</label>
-                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio2"
-                                    autocomplete="off" value="2">
-                                <label class="btn btn-outline-dark" for="btnradio2">2</label>
-                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio3"
-                                    autocomplete="off" value="3">
-                                <label class="btn btn-outline-dark" for="btnradio3">3</label>
-                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio4"
-                                    autocomplete="off" value="4">
-                                <label class="btn btn-outline-dark" for="btnradio4">4</label>
-                                <input type="radio" class="btn-check" name="review[rating]" id="btnradio5"
-                                    autocomplete="off" value="5" checked>
-                                <label class="btn btn-outline-dark" for="btnradio5">5</label>
-                            </div>
+                            <fieldset class="starability-slot">
+                                <legend>Rating:</legend>
+                                <input type="radio" id="first-rate1" name="review[rating]" value="1" required />
+                                <label for="first-rate1" title="Terrible">1 star</label>
+                                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                <label for="first-rate2" title="Not good">2 stars</label>
+                                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                <label for="first-rate3" title="Average">3 stars</label>
+                                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                <label for="first-rate4" title="Very good">4 stars</label>
+                                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                <label for="first-rate5" title="Amazing">5 stars</label>
+                                <div class="invalid-feedback">Please select a rating.</div>
+                            </fieldset>
                             <div class="review-comment">
                                 <lable class="form-label fs-5 me-3" for="comment">Comment:</lable>
                                 <textarea minlength="10" maxlength="500" name="review[comment]" rows="7"
