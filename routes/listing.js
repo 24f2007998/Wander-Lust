@@ -25,6 +25,7 @@ router
   .put(
     isLoggedin,
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     wrapAsync(listingcontroller.updateListing)
   );
